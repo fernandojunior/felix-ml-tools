@@ -5,8 +5,6 @@ from dotenv import load_dotenv
 
 # Model package name
 NAME = 'felix_ml_tools'
-# Current Version
-VERSION = os.getenv('APP_VERSION', '0.0.1')
 
 # Dependecies for the package
 with open('requirements.txt') as r:
@@ -24,7 +22,7 @@ with open("README.md") as f:
 
 setup(
     name=NAME,
-    version=VERSION,
+    version='0.0.1',
     description='Macgyver lib to resolver any machine learning problem.',
     long_description=LONG_DESCRIPTION,
     author='Fernando Felix',
