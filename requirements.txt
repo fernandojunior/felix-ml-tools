@@ -1,0 +1,11 @@
+pycaret
+catboost
+lightgbm
+pandas
+numpy
+ppscore
+pyod
+matplotlib
+seaborn
+jupyter
+jupyterlab
