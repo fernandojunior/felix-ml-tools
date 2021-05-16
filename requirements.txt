@@ -7,5 +7,5 @@ ppscore
 pyod
 matplotlib
 seaborn
-jupyter
-jupyterlab
+jupyter # dev
+jupyterlab # dev
