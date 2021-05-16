@@ -1,5 +1,5 @@
 # felix-ml-tools
 
-A lib to resolver any machine learning problem.
+A ML/EDA lib to rule any problem.
 
-Warning: Not recommended for production environment.
+Warning: Not ready for production environment.

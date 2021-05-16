@@ -22,7 +22,7 @@ with open("README.md") as f:
 setup(
     name=NAME,
     version='0.0.1',
-    description='A lib to resolver any machine learning problem.',
+    description='A ML/EDA lib to rule any problem.',
     long_description=LONG_DESCRIPTION,
     author='Fernando Felix',
     packages=find_packages(exclude=("tests", "docs")),
