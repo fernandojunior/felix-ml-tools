@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
 import os
 from os import path
-from dotenv import load_dotenv
 
 # Model package name
 NAME = 'felix_ml_tools'
@@ -23,7 +22,7 @@ with open("README.md") as f:
 setup(
     name=NAME,
     version='0.0.1',
-    description='Macgyver lib to resolver any machine learning problem.',
+    description='A lib to resolver any machine learning problem.',
     long_description=LONG_DESCRIPTION,
     author='Fernando Felix',
     packages=find_packages(exclude=("tests", "docs")),

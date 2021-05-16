@@ -1,3 +1,5 @@
 # felix-ml-tools
 
-Macgyver lib to resolver any machine learning problem.
+A lib to resolver any machine learning problem.
+
+Warning: Not recommended for production environment.
