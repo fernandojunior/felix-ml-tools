@@ -18,6 +18,40 @@ pd.set_option("max_rows", None)
 pd.set_option('display.float_format', lambda x: '%.3f' % x)
 
 
+def calc_sample_size(population_size, confidence_level=95, confidence_interval=2):
+    """
+    Calculate sample size from population given `confidence_level` and `confidence_interval`
+
+    Ref:
+    - https://veekaybee.github.io/2015/08/04/how-big-of-a-sample-size-do-you-need/
+    - https://www.surveysystem.com/sscalc.htm
+    - https://github.com/veekaybee/data/blob/master/samplesize.py
+    """
+    # supported confidence levels: 50%, 68%, 90%, 95%, and 99%
+    confidence_level_zcores = {50: 0.67, 68: 0.99, 90: 1.64, 95: 1.96, 99: 2.57}
+
+    Z = 0.0
+    p = 0.5
+    e = confidence_interval / 100.0
+    N = population_size
+    n_0 = 0.0
+    n = 0.0
+
+    # find the num std deviations for that confidence level
+    Z = confidence_level_zcores[confidence_level]
+
+    if Z == 0.0:
+        return -1
+
+    # calc sample size
+    n_0 = ((Z ** 2) * p * (1 - p)) / (e ** 2)
+
+    # ajust sample size for finite population
+    n = n_0 / (1 + ((n_0 - 1) / float(N)))
+
+    return int(math.ceil(n))
+
+
 def split_dataset(df, frac=.3):
     # Spliting into train/test datasets
     test = df.sample(frac=frac)
