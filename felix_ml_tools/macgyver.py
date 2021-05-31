@@ -1,8 +1,12 @@
+from typing import List
+
 import pandas as pd
 import numpy as np
 
 from scipy.stats import chi2_contingency
 from scipy.stats import chi2
+
+from sklearn.metrics import confusion_matrix
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -50,6 +54,72 @@ def calc_sample_size(population_size, confidence_level=95, confidence_interval=2
     n = n_0 / (1 + ((n_0 - 1) / float(N)))
 
     return int(math.ceil(n))
+
+
+def gen_confusion_matrices(
+    data: pd.DataFrame,
+    y_true_col: str,
+    y_pred_col: str,
+    labels: List[str] = None,
+) -> Dict[str, Any]:
+    """
+    Generate different confusion matrices based on `y_true_col` (groud truth) vs `y_pred_col`
+    (predictions) columns from `data`.
+
+    Also, generate overall metrics from these matrices
+    """
+    data = data[data[y_true_col].notnull() & data[y_pred_col].notnull()]
+
+    # raw confusion matrix without normalization
+    raw_matrix = pd.DataFrame(
+        index=labels,
+        columns=labels,
+        data=confusion_matrix(data[[y_true_col]], data[[y_pred_col]], labels=labels),
+    )
+
+    recall_matrix = (
+        pd.DataFrame(
+            index=labels,
+            columns=labels,
+            data=confusion_matrix(
+                data[[y_true_col]], data[[y_pred_col]], labels=labels, normalize="true"
+            ),
+        )
+        .apply(lambda x: round(x, 2) * 100)
+        .astype(int)
+    )
+
+    precision_matrix = (
+        pd.DataFrame(
+            index=labels,
+            columns=labels,
+            data=confusion_matrix(
+                data[[y_true_col]], data[[y_pred_col]], labels=labels, normalize="pred"
+            ),
+        )
+        .apply(lambda x: round(x, 2) * 100)
+        .astype(int)
+    )
+
+    # overall metrics
+    acc = np.sum(list(np.diag(raw_matrix))) / raw_matrix.sum().sum()
+    recall_avg = np.diag(recall_matrix).mean()
+    precision_avg = np.diag(precision_matrix).mean()
+    f1_score = 2 * (recall_avg * precision_avg) / (recall_avg + precision_avg)
+
+    return {
+        "metrics": {
+            "acc": acc,
+            "recall_avg": recall_avg,
+            "precision_avg": precision_avg,
+            "f1_score": f1_score,
+        },
+        "confusion_matrix": {
+            "raw": raw_matrix,  # non normalized confusion matrix (counts)
+            "recall_matrix": recall_matrix,
+            "precision_matrix": precision_matrix,
+        },
+    }
 
 
 def split_dataset(df, frac=.3):
