@@ -19,5 +19,6 @@ jobs:
         pip install -r test_requirements.txt
     - name: Analysing the code with pylint
       run: |
+        black .
         flake8 . --count --ignore=E501,E261,E731,W503,W504 --max-complexity=10 --show-source --statistics
         pytest
