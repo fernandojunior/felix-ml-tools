@@ -23,6 +23,10 @@ pd.set_option("max_rows", None)
 pd.set_option("display.float_format", lambda x: "%.3f" % x)
 
 
+def vai():
+    return "vai"
+
+
 def calc_sample_size(population_size, confidence_level=95, confidence_interval=2):
     """
     Calculate sample size from population given `confidence_level` and `confidence_interval`
